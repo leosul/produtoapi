@@ -10,8 +10,6 @@ namespace ProductCatalog.Data
         public StoreDataContext(Settings config)
         {
             _config = config;
-            this.Database.Migrate();
-
         }
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }
