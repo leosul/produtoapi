@@ -1,7 +1,5 @@
-﻿using System.IO;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProductCatalog.Data;
@@ -12,17 +10,26 @@ namespace ProductCatalog
 {
     public class Startup
     {
-        public static IConfiguration Configuration { get; set; }
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+        public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            var config = new Settings();
+            Configuration.Bind("Data", config);
+            services.AddSingleton(config);
+
             services.AddResponseCompression();
             services.AddScoped<StoreDataContext, StoreDataContext>();
             services.AddTransient<ProductRepository, ProductRepository>();
 
             services.AddSwaggerGen(s =>
             {
-                s.SwaggerDoc("v1", new Info{Title="API Produtos", Version = "v1"});
+                s.SwaggerDoc("v1", new Info { Title = "API Produtos", Version = "v1" });
             });
         }
 
