@@ -1,4 +1,6 @@
+using System;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using ProductCatalog.Data.Maps;
 using ProductCatalog.Models;
 
@@ -10,9 +12,9 @@ namespace ProductCatalog.Data
 
         public DbSet<Category> Categories { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionBuilder.UseSqlServer(@"Server=localhost,1433;DataBase=prodcat;User ID=produtoapi;Password=!1Custom");
+            optionsBuilder.UseSqlServer("Server=localhost,1433;DataBase=prodcat;User ID=produtoapi;Password=!1Custom");
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
